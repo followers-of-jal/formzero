@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>can you hear the lights</title>
-    <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+    <link href="./style.css" rel="stylesheet" type="text/css" media="all">
     <script src="https://iframe.chat/scripts/main.min.js"></script>
   </head>
   <body>
@@ -36,9 +36,18 @@
     <p>Inform us of the lights you hear.</p>
 
     <form class="guestbook-form" action="https://formzero.anoraktrend.workers.dev/api/forms/inform-us-of-the-lights-you-hear/guestbook/sign" method="POST">
-        <input type="text" name="name" placeholder="CRT_Beatbox" required />
-        <input type="email" name="email" placeholder="lightlistener@hotmail.com" required />
-        <textarea name="message" placeholder="streetlights sing my name"></textarea>
+        <div class="form-row">
+            <label for="gb-name">name</label>
+            <input id="gb-name" type="text" name="name" placeholder="CRT_Beatbox" required />
+        </div>
+        <div class="form-row">
+            <label for="gb-email">email</label>
+            <input id="gb-email" type="email" name="email" placeholder="lightlistener@hotmail.com" required />
+        </div>
+        <div class="form-row">
+            <label for="gb-message">message</label>
+            <textarea id="gb-message" name="message" placeholder="streetlights sing my name"></textarea>
+        </div>
         <input type="text" name="website" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
         <button type="submit">Submit</button>
     </form>

@@ -1,0 +1,323 @@
+/* ==========================================================================
+   "CAN YOU HEAR THE LIGHTS" - ULTIMATE CRT DARK MODE THEME
+   ========================================================================== */
+
+/* 1. Performance-Friendly Element Reset */
+html, body, div, section, article, header, footer, nav, main, ul, li, p, img, a, form, input, textarea, button, label, span {
+  box-sizing: border-box;
+}
+
+/* 2. Global Theme Color Variables */
+:root {
+  --bg-dark: #000000;        /* True pitch black */
+  --text-main: #8ea3b8;      /* Muted matrix-silver */
+  --glow-green: #39ff14;     /* Terminal neon green */
+  --border-color: #1a2436;   /* Dark structural grid color */
+}
+
+/* 3. Base Body Setup */
+body {
+  font-family: Courier, Monaco, "Courier New", monospace; /* Enforces terminal/retro code vibe */
+  line-height: 1.7;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  margin: 0;
+  padding: 4rem 1.5rem;
+  position: relative;
+}
+
+/* 4. Typography & Hardware Animations */
+h1 {
+  font-size: 2.2rem;
+  color: #ffffff;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  text-transform: lowercase; /* Matches indie-web aesthetic styles */
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+}
+
+h2 {
+  font-size: 1.4rem;
+  color: #ffffff;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+  text-transform: lowercase;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+}
+
+/* The blinking text cursor effect next to the title */
+.blinking-cursor {
+  color: var(--glow-green);
+  animation: hardware-blink 1s steps(2, start) infinite;
+  text-shadow: 0 0 8px var(--glow-green);
+}
+
+@keyframes hardware-blink {
+  to { visibility: hidden; }
+}
+
+/* 5. Custom Hyperlinks */
+a {
+  color: var(--glow-green);
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 1px dashed var(--glow-green);
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: #ffffff;
+  border-bottom: 1px solid #ffffff;
+  background-color: rgba(57, 255, 20, 0.15);
+}
+
+/* 6. Styled Blog Lists (Your Experiences) */
+ul {
+  background-color: #030508;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+  margin: 1.5rem 0 2.5rem 0;
+}
+
+li {
+  margin-bottom: 1rem;
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+li::marker {
+  color: var(--glow-green);
+}
+
+/* 7. User Submissions Layout Card */
+.submission-card {
+  background-color: #05070a;
+  border-left: 3px solid var(--glow-green);
+  border-top: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.submission-meta {
+  font-size: 0.8rem;
+  color: #475569;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.submission-card p {
+  margin-bottom: 0;
+  font-style: italic;
+  color: #cbd5e1; /* Marginally brighter text for easier reading */
+}
+
+/* 8. Retro Guestbook Form Styles */
+.guestbook-form {
+  background-color: #030508;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-row {
+  margin-bottom: 1.25rem;
+}
+
+.guestbook-form label {
+  display: block;
+  font-size: 0.9rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.guestbook-form input,
+.guestbook-form textarea {
+  width: 100%;
+  background-color: #000000;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.6rem;
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+.guestbook-form input:focus,
+.guestbook-form textarea:focus {
+  outline: 1px solid var(--glow-green);
+  border-color: var(--glow-green);
+}
+
+.guestbook-form button {
+  background-color: transparent;
+  color: var(--glow-green);
+  border: 1px solid var(--glow-green);
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.guestbook-form button:hover {
+  background-color: var(--glow-green);
+  color: #000000;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+}
+
+/* Guestbook Log Entries Output */
+.guestbook-log {
+  margin-top: 1.5rem;
+}
+
+.guestbook-entry {
+  border-bottom: 1px dashed var(--border-color);
+  padding: 1rem 0;
+}
+
+.guestbook-entry:last-child {
+  border-bottom: none;
+}
+
+.entry-user {
+  color: var(--glow-green);
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.entry-date {
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.entry-text {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  color: #cbd5e1;
+}
+
+/* 9. Interactive CRT Display Effects */
+/* Horizontal scanlines layer */
+.crt-scanlines {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 6px 100%;
+  z-index: 9999;
+  pointer-events: none; /* Allows you to click objects through the filter overlay */
+}
+
+/* Subtle tube television power flicker */
+.crt-flicker {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(18, 16, 16, 0.02);
+  opacity: 0;
+  z-index: 9998;
+  pointer-events: none;
+  animation: screen-flicker 0.15s infinite;
+}
+
+@keyframes screen-flicker {
+  0% { opacity: 0.25; }
+  50% { opacity: 0.35; }
+  100% { opacity: 0.21; }
+}
+
+/* 10. Core Assets & Footer Reset */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 3rem 0 1.5rem 0;
+  border-radius: 4px;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+img:hover {
+  opacity: 0.85;
+}
+
+foot {
+  display: block;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #334155;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.5rem;
+  margin-top: 3rem;
+}
+
+/* 11. Guestbook Iframe Terminal Frame */
+.guestbook-frame-container {
+  background-color: #030508;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.5rem 0 3rem 0;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.75);
+}
+
+.frame-header {
+  background-color: #0d1527;
+  color: var(--glow-green);
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
+
+.guestbook-frame-container iframe {
+  display: block;
+  background-color: #ffffff; /* Keeps the iframe background white so the smartgb fields are clear */
+  border-radius: 0 0 8px 8px;
+}
+
+/* ==========================================================================
+   14. CHATTABLE CUSTOM THEME OVERRIDES
+   ========================================================================== */
+.chattable-app {
+  background-color: #000000 !important; /* Pitch black inside chat */
+  color: var(--text-main) !important;
+  font-family: Courier, monospace !important;
+}
+
+.chattable-message-username {
+  color: var(--glow-green) !important; /* Users turn glowing neon green */
+  font-weight: bold;
+}
+
+.chattable-input {
+  background-color: #05070a !important;
+  color: #ffffff !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.chattable-input:focus {
+  border-color: var(--glow-green) !important;
+}
+
+.chattable-button-send {
+  background-color: transparent !important;
+  color: var(--glow-green) !important;
+  border: 1px solid var(--glow-green) !important;
+}
