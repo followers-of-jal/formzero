@@ -213,7 +213,7 @@ export default function FormSettings() {
           <CardTitle>Guestbook</CardTitle>
           <CardDescription>
             When enabled, submissions to this form become readable by anyone via the
-            public guestbook API. Entries are returned with profanity masked.
+            public guestbook API.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

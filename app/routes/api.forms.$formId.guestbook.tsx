@@ -1,6 +1,5 @@
 import type { Route } from "./+types/api.forms.$formId.guestbook";
 import { data } from "react-router";
-import { filterProfanity } from "~/lib/profanity.server";
 
 // CORS headers to allow guestbook embeds from any domain
 const corsHeaders = {
@@ -11,10 +10,41 @@ const corsHeaders = {
 };
 
 type SubmissionRow = {
-  id: string;
-  data: string;
-  created_at: number;
+  id: string
+  data: string
+  created_at: number
 };
+
+// JSONP callback names must be safe identifiers to avoid script injection.
+const CALLBACK_RE = /^[A-Za-z_$][A-Za-z0-9_$.]*$/;
+
+function jsonpResponse(callback: string, body: unknown): Response {
+  const padded = `${callback}(${JSON.stringify(body)});`;
+  return new Response(padded, {
+    headers: {
+      ...corsHeaders,
+      "Content-Type": "application/javascript; charset=utf-8",
+      "Cache-Control": "no-store",
+    },
+  });
+}
+
+function errorResponse(
+  callback: string | null,
+  error: string,
+  status: number
+): Response {
+  if (callback) {
+    if (!CALLBACK_RE.test(callback)) {
+      return new Response("/* invalid callback */", {
+        status: 400,
+        headers: { "Content-Type": "application/javascript" },
+      });
+    }
+    return jsonpResponse(callback, { error });
+  }
+  return data({ error }, { status, headers: corsHeaders });
+}
 
 export async function loader({ request, params, context }: Route.LoaderArgs) {
   if (request.method === "OPTIONS") {
@@ -24,6 +54,7 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   const { formId } = params;
   const db = context.cloudflare.env.DB;
   const url = new URL(request.url);
+  const callback = url.searchParams.get("callback")?.trim();
 
   const limit = Math.min(
     Math.max(parseInt(url.searchParams.get("limit") || "50", 10) || 50, 1),
@@ -40,18 +71,12 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
     .first<{ id: string; is_guestbook: number }>();
 
   if (!form) {
-    return data(
-      { error: "Form not found" },
-      { status: 404, headers: corsHeaders }
-    );
+    return errorResponse(callback ?? null, "Form not found", 404);
   }
 
   // Only forms explicitly flagged as guestbooks are publicly readable.
   if (!form.is_guestbook) {
-    return data(
-      { error: "Guestbook not enabled for this form" },
-      { status: 404, headers: corsHeaders }
-    );
+    return errorResponse(callback ?? null, "Guestbook not enabled for this form", 404);
   }
 
   const rows = await db
@@ -69,13 +94,22 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   const entries = (rows.results ?? []).map((row: SubmissionRow) => ({
     id: row.id,
     created_at: row.created_at,
-    data: filterProfanity(JSON.parse(row.data)),
+    data: JSON.parse(row.data),
   }));
 
-  return data(
-    { entries, total: total?.count ?? 0, limit, offset },
-    { headers: corsHeaders }
-  );
+  const body = { entries, total: total?.count ?? 0, limit, offset };
+
+  if (callback) {
+    if (!CALLBACK_RE.test(callback)) {
+      return new Response("/* invalid callback */", {
+        status: 400,
+        headers: { "Content-Type": "application/javascript" },
+      });
+    }
+    return jsonpResponse(callback, body);
+  }
+
+  return data(body, { headers: corsHeaders });
 }
 
 export async function action({ request }: Route.ActionArgs) {
