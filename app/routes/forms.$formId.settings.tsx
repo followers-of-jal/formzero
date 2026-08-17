@@ -31,7 +31,7 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   await requireAuth(request, database)
 
   const form = await database
-    .prepare("SELECT id, name FROM forms WHERE id = ?")
+    .prepare("SELECT id, name, is_guestbook FROM forms WHERE id = ?")
     .bind(params.formId)
     .first<Form>()
 
@@ -82,6 +82,26 @@ export async function action({ request, params, context }: Route.ActionArgs) {
 
   try {
     const formData = await request.formData()
+
+    // Toggle guestbook mode for this form
+    if (formData.get("intent") === "guestbook") {
+      const isGuestbook = formData.get("is_guestbook") ? 1 : 0
+
+      const result = await database
+        .prepare("UPDATE forms SET is_guestbook = ?, updated_at = ? WHERE id = ?")
+        .bind(isGuestbook, Date.now(), formId)
+        .run()
+
+      if (result.meta.changes === 0) {
+        return data(
+          { success: false, error: "Form not found" },
+          { status: 404 }
+        )
+      }
+
+      return data({ success: true }, { status: 200 })
+    }
+
     const name = (formData.get("name") as string | null)?.trim()
 
     if (!name) {
@@ -117,6 +137,7 @@ export default function FormSettings() {
   const { form } = useLoaderData<typeof loader>()
   const updateFetcher = useFetcher<{ success?: boolean; error?: string }>()
   const deleteFetcher = useFetcher<{ success?: boolean; error?: string }>()
+  const guestbookFetcher = useFetcher<{ success?: boolean; error?: string }>()
 
   const [name, setName] = useState(form.name)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -184,6 +205,56 @@ export default function FormSettings() {
               Save
             </ResultButton>
           </updateFetcher.Form>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Guestbook</CardTitle>
+          <CardDescription>
+            When enabled, submissions to this form become readable by anyone via the
+            public guestbook API. Entries are returned with profanity masked.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium">Public guestbook mode</span>
+            <Button
+              variant={form.is_guestbook ? "default" : "outline"}
+              disabled={guestbookFetcher.state !== "idle"}
+              onClick={() =>
+                guestbookFetcher.submit(
+                  {
+                    intent: "guestbook",
+                    is_guestbook: form.is_guestbook ? "0" : "1",
+                  },
+                  { method: "post", action: `/forms/${form.id}/settings` }
+                )
+              }
+            >
+              {guestbookFetcher.state !== "idle"
+                ? "Saving..."
+                : form.is_guestbook
+                  ? "Enabled"
+                  : "Disabled"}
+            </Button>
+          </div>
+          {form.is_guestbook ? (
+            <p className="text-sm text-muted-foreground">
+              Read entries at{" "}
+              <code className="rounded bg-muted px-1 py-0.5">
+                GET /api/forms/{form.id}/guestbook
+              </code>
+            </p>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              Submissions to this form are only visible in the dashboard. Enable guestbook
+              mode to expose them publicly.
+            </p>
+          )}
+          {guestbookFetcher.data?.error && (
+            <p className="text-sm text-destructive">{guestbookFetcher.data.error}</p>
+          )}
         </CardContent>
       </Card>
 

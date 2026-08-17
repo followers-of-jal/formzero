@@ -35,13 +35,21 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   );
 
   const form = await db
-    .prepare("SELECT id FROM forms WHERE id = ?")
+    .prepare("SELECT id, is_guestbook FROM forms WHERE id = ?")
     .bind(formId)
-    .first();
+    .first<{ id: string; is_guestbook: number }>();
 
   if (!form) {
     return data(
       { error: "Form not found" },
+      { status: 404, headers: corsHeaders }
+    );
+  }
+
+  // Only forms explicitly flagged as guestbooks are publicly readable.
+  if (!form.is_guestbook) {
+    return data(
+      { error: "Guestbook not enabled for this form" },
       { status: 404, headers: corsHeaders }
     );
   }

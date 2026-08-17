@@ -1,0 +1,3 @@
+-- Migration number: 0005 	 2026-08-17T00:00:00.000Z
+
+ALTER TABLE forms ADD COLUMN is_guestbook INTEGER NOT NULL DEFAULT 0;
