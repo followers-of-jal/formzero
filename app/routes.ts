@@ -20,6 +20,7 @@ export default [
 
   route("/api/auth/*", "routes/api.auth.$.tsx"),
   route("/api/forms/:formId/submissions", "routes/api.forms.$formId.submissions.tsx"),
+  route("/api/forms/:formId/guestbook", "routes/api.forms.$formId.guestbook.tsx"),
 
   route("/success", "routes/success.tsx"),
   route("/error", "routes/error.tsx"),
