@@ -7,7 +7,7 @@
 		"migrate": "yes Y | npx wrangler d1 migrations apply DB",
 		"seed": "yes Y | npx wrangler d1 execute DB --file seed.sql",
 		"cf-typegen": "npx wrangler types",
-		"deploy": "npm run migrate -- --remote && npx wrangler deploy",
+		"deploy": "npm run build && npm run migrate -- --remote && npx wrangler deploy",
 		"dev": "react-router dev",
 		"postinstall": "npm run cf-typegen",
 		"preview": "npm run build && vite preview",
