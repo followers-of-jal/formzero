@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>can you hear the lights</title>
+    <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+    <script src="https://iframe.chat/scripts/main.min.js"></script>
+  </head>
+  <body>
+    <!-- The CRT Screen overlay effects -->
+    <div class="crt-scanlines"></div>
+    <div class="crt-flicker"></div>
+
+    <h1>can you hear the lights<span class="blinking-cursor">_</span></h1>
+
+    <p>This is a basic blog about my experiences and my dreams. I also post user story submissions.</p>
+    <p>My email for submitting stories is <a href="mailto:lights@helltop.net">here</a></p>
+
+    <h2>Recent Experiences</h2>
+    <ul>
+      <li>I once woke up to a loud noise and bright lights, I don't remember a lot else, but I did find myself in my living room with my tv on to static.</li>
+      <li>I once heard a sharp ringing in my room when my lights were off, it turns out I can hear streetlights from, like, really far away.</li>
+      <li>My first experience with hearing lights was in 2000, when I turned on my new computer monitor, it was playing music without speakers... </li>
+    </ul>
+
+    <!-- Section 1: User Submissions Box -->
+    <h2>User Submissions</h2>
+    <div class="submission-card">
+      <div class="submission-meta">SUBMISSION #084 // FROM: anonymous_user</div>
+      <p>"Every time the commercial sign down the block blinks from red to blue, my radio clicks over to static for a microsecond. Nobody else in the house hears it, but the frequency is definitely vibrating through my bedroom window pane."</p>
+    </div>
+
+    <!-- Section 2: Retro Guestbook Form -->
+    <h2>Sign the Guestbook</h2>
+    <p>Inform us of the lights you hear.</p>
+
+    <form class="guestbook-form" action="https://formzero.anoraktrend.workers.dev/api/forms/inform-us-of-the-lights-you-hear/guestbook/sign" method="POST">
+        <input type="text" name="name" placeholder="CRT_Beatbox" required />
+        <input type="email" name="email" placeholder="lightlistener@hotmail.com" required />
+        <textarea name="message" placeholder="streetlights sing my name"></textarea>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
+        <button type="submit">Submit</button>
+    </form>
+    <p class="guestbook-status"></p>
+
+    <!-- Guestbook Entries Container (loaded live from FormZero) -->
+    <div class="guestbook-log">
+      <!-- Fallback shown if JavaScript is disabled -->
+      <div class="guestbook-entry">
+        <span class="entry-user">neon_ghost_99</span>
+        <span class="entry-date">2006-08-16 22:54</span>
+        <p class="entry-text">I thought I was crazy until I found this site. The old streetlights on Maple St definitely hum in B-flat.</p>
+      </div>
+      <div class="guestbook-entry">
+        <span class="entry-user">signal_loss</span>
+        <span class="entry-date">2006-08-15 03:12</span>
+        <p class="entry-text">Cool site. Reminds me of browsing the web late at night in 2004.</p>
+      </div>
+    </div>
+    <img src="/neocities.png" alt="Site hosted by Neocities">
+
+    <p><foot>©️2005 ://geocities.com</foot></p>
+
+    <script src="guestbook.js"></script>
+  </body>
+</html>
